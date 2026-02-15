@@ -1,0 +1,16 @@
+# Python Environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# OS Files
+.DS_Store
+
+
+# Fonts (Ignored by default due to potential licensing restrictions)
+*.ttf
+*.zip
+KGFonts-TOU.txt
+
+# Ignore the project README? No, that should be committed.
+# README.md is fine.
