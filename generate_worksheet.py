@@ -65,18 +65,12 @@ def draw_text(c, text, x, y, font_size=50, is_dotted=False, font_name="Helvetica
         t.textOut(text)
         c.drawText(t)
     elif is_dotted:
-        # Fallback to outline if standard font is requested as "dotted" (which user disliked)
-        # But we will try to use Codystar if possible
-         t.setFont(font_name, font_size)
-         c.saveState()
-         c.setLineWidth(0.5)
-         c.setDash([2, 2])
-         t.setTextRenderMode(2) # Fill then stroke
-         t.setFillColor(colors.white)
-         t.setStrokeColor(colors.gray)
-         t.textOut(text)
-         c.drawText(t)
-         c.restoreState()
+        # Fallback: Instead of an outline boundary, use a solid light gray color for tracing
+        t.setFont(font_name, font_size)
+        t.setTextRenderMode(0) # Fill text
+        t.setFillColor(colors.lightgrey)
+        t.textOut(text)
+        c.drawText(t)
     else:
         # Standard solid text
         t.setFont(font_name, font_size)
@@ -117,8 +111,10 @@ def create_page(c, letter_char):
         text_y = y_pos + (line_height * 0.15)
         
         # Pattern for this letter
-        # e.g. "A A A A A A A" (7 times)
-        pattern_str = " ".join([target_char] * 7)
+        if letter_char.isalpha():
+            pattern_str = " ".join([target_char.upper()] * 4 + [letter_char.lower()] * 3)
+        else:
+            pattern_str = " ".join([target_char] * 7)
         
         if i < 2:
             x_pos = margin + 0.5 * inch
